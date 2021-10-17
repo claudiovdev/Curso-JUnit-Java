@@ -4,16 +4,19 @@ import static br.ce.wcaquino.utils.DataUtils.adicionarDias;
 
 import java.util.Date;
 
-import org.junit.Test;
-
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
-import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoService {
 	
-	public Locacao alugarFilme(Usuario usuario, Filme filme) {
+	
+	public Locacao alugarFilme(Usuario usuario, Filme filme) throws Exception {
+		if(filme.getEstoque() == 0) {
+			throw new Exception("Filme sem estoque");
+		}
+		
+		
 		Locacao locacao = new Locacao();
 		locacao.setFilme(filme);
 		locacao.setUsuario(usuario);
@@ -30,23 +33,5 @@ public class LocacaoService {
 		
 		return locacao;
 	}
-		@Test
-		public void testeQualquer() {
-		//cenario
-		LocacaoService service = new LocacaoService();
 		
-		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 2, 5.0);
-		
-		//acao
-		
-		Locacao locacao = service.alugarFilme(usuario, filme);
-		
-		//verificacao
-		
-		System.out.println(locacao.getValor() == 5);
-		System.out.println(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
-		System.out.println(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
-		
-	}
 }
